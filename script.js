@@ -69,37 +69,6 @@ const countObserver = new IntersectionObserver(entries => {
 const statsSection = document.querySelector('.stats')
 if (statsSection) countObserver.observe(statsSection)
 
-function initSlider(sliderId, handleId) {
-  const slider = document.getElementById(sliderId)
-  const handle = document.getElementById(handleId)
-  const beforeEl = slider.querySelector('.ba-slider__before')
-  if (!slider || !handle || !beforeEl) return
-
-  let active = false
-  let pct = 50
-
-  const setPos = x => {
-    const rect = slider.getBoundingClientRect()
-    pct = Math.max(0, Math.min(100, ((x - rect.left) / rect.width) * 100))
-    beforeEl.style.clipPath = `inset(0 ${100 - pct}% 0 0)`
-    handle.style.left = pct + '%'
-  }
-
-  handle.addEventListener('mousedown', e => { active = true; e.preventDefault() })
-  window.addEventListener('mousemove', e => { if (active) setPos(e.clientX) })
-  window.addEventListener('mouseup', () => { active = false })
-
-  handle.addEventListener('touchstart', e => { active = true; e.preventDefault() }, { passive: false })
-  window.addEventListener('touchmove', e => {
-    if (active && e.touches[0]) setPos(e.touches[0].clientX)
-  }, { passive: true })
-  window.addEventListener('touchend', () => { active = false })
-
-  slider.addEventListener('click', e => setPos(e.clientX))
-}
-
-initSlider('slider-1', 'handle-1')
-initSlider('slider-2', 'handle-2')
 
 document.querySelectorAll('.process__step-head').forEach(head => {
   head.addEventListener('click', () => {
